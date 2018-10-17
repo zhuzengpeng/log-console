@@ -3,10 +3,6 @@ package com.roowoo.log.common.service;
 import com.roowoo.log.common.persistence.CrudDao;
 import com.roowoo.log.common.persistence.DataEntity;
 import com.roowoo.log.common.persistence.Page;
-import com.roowoo.log.modules.count1.dao.Count1lDao;
-import com.roowoo.log.modules.count1.entity.Count1l;
-import com.roowoo.log.modules.count2.dao.Count2Dao;
-import com.roowoo.log.modules.count2.entity.Count2;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -18,10 +14,7 @@ import java.util.List;
  * @version 2014-05-16
  */
 public abstract class CrudService<D extends CrudDao<T>, T extends DataEntity<T>> extends BaseService {
-    @Autowired
-    private Count1lDao count1lDao;
-    @Autowired
-    private Count2Dao count2Dao;
+
     /**
      * 持久层对象
      */
@@ -105,15 +98,4 @@ public abstract class CrudService<D extends CrudDao<T>, T extends DataEntity<T>>
         dao.delete(entity);
     }
 
-    public  List<Count1l> findListByParentId(){
-        return count1lDao.findListByParentId();
-    }
-
-    public List<Count1l> findListByParentIdSon(String departid){ return count1lDao.findListByParentIdSon(departid);}
-
-    public  List<Count2> findListByParentId1(){
-        return count2Dao.findListByParentId1();
-    }
-
-    public List<Count2> findListByParentIdSon1(String departid){ return count2Dao.findListByParentIdSon1(departid);}
 }
