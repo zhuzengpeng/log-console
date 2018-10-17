@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roowoo.log.modules.pie.dao.LoginIpuserDisDao">
+    
+	<sql id="loginIpuserDisColumns">
+		a.count AS "count",
+		a.num AS "num",
+		a.id AS "id"
+	</sql>
+	
+	<sql id="loginIpuserDisJoins">
+	</sql>
+    
+	<select id="get" resultType="LoginIpuserDis">
+		SELECT 
+			<include refid="loginIpuserDisColumns"/>
+		FROM login_ipuser_dis a
+		<include refid="loginIpuserDisJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="LoginIpuserDis">
+		SELECT 
+			<include refid="loginIpuserDisColumns"/>
+		FROM login_ipuser_dis a
+		<include refid="loginIpuserDisJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="LoginIpuserDis">
+		SELECT 
+			<include refid="loginIpuserDisColumns"/>
+		FROM login_ipuser_dis a
+		<include refid="loginIpuserDisJoins"/>
+		<where>
+			
+		</where>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO login_ipuser_dis(
+			count,
+			num,
+			id
+		) VALUES (
+			#{count},
+			#{num},
+			#{id}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE login_ipuser_dis SET 	
+			count = #{count},
+			num = #{num}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM login_ipuser_dis
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

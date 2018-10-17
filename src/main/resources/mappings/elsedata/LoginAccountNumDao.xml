@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roowoo.log.modules.elsedata.dao.LoginAccountNumDao">
+    
+	<sql id="loginAccountNumColumns">
+		a.id AS "id",
+		a.status AS "status",
+		a.sex AS "sex",
+		a.count AS "count",
+		a.num AS "num"
+	</sql>
+	
+	<sql id="loginAccountNumJoins">
+	</sql>
+    
+	<select id="get" resultType="LoginAccountNum">
+		SELECT 
+			<include refid="loginAccountNumColumns"/>
+		FROM login_account_num a
+		<include refid="loginAccountNumJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="LoginAccountNum">
+		SELECT 
+			<include refid="loginAccountNumColumns"/>
+		FROM login_account_num a
+		<include refid="loginAccountNumJoins"/>
+		<where>
+			a.status = '成功'
+		</where>
+	</select>
+	
+	<select id="findAllList" resultType="LoginAccountNum">
+		SELECT 
+			<include refid="loginAccountNumColumns"/>
+		FROM login_account_num a
+		<include refid="loginAccountNumJoins"/>
+		<where>
+			a.status = '失败'
+		</where>		
+
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO login_account_num(
+			id,
+			ststus,
+			sex,
+			count,
+			num
+		) VALUES (
+			#{id},
+			#{ststus},
+			#{sex},
+			#{count},
+			#{num}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE login_account_num SET 	
+			ststus = #{ststus},
+			sex = #{sex},
+			count = #{count},
+			num = #{num}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM login_account_num
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roowoo.log.modules.account.dao.AccountLoginDao">
+
+	<sql id="accountLoginColumns">
+		a.id AS "id",
+		a.dept_id AS "deptId",
+		a.account_number AS "accountNumber"
+	</sql>
+
+	<sql id="accountLoginJoins">
+	</sql>
+
+
+    <select id="findDept" resultType="java.util.HashMap">
+        SELECT
+        a.dept_id AS "dept_id" ,
+        a.account_number,
+        b.dept_id ,
+        b.state AS "state" ,
+        b.parent_node_num
+        FROM account_login a , ldap_inner b
+        WHERE a.dept_id = b.dept_id and b.parent_node_num IS NOT NULL
+    </select><!--IS NOT NULL 好像不为空的也会被查出来-->
+
+    <select id="loginNum" resultType="java.util.HashMap">
+        SELECT
+        a.dept_id AS "dept_id" ,
+        a.login_number AS "login_number",
+        b.dept_id ,
+        b.state AS "state" ,
+        b.parent_node_num
+        FROM account_login2 a , ldap_inner b
+        WHERE a.dept_id = b.dept_id and b.parent_node_num !=''
+    </select>
+
+
+    <select id="loginNum2" resultType="java.util.HashMap">
+        SELECT
+        a.dept_id AS "dept_id" ,
+        a.login_number AS "login_number",
+        b.dept_id ,
+        b.state AS "state" ,
+        b.parent_node_num
+        FROM account_login2 a , ldap_inner b
+        WHERE a.dept_id = b.dept_id and b.parent_node_num =''
+    </select>
+
+
+    <select id="loginNum3" resultType="java.util.HashMap">
+        SELECT
+        a.username AS "username" ,
+        a.login_date AS "login_date",
+        a.login_num AS "login_num"
+        FROM account_login4 a
+        WHERE a.login_date=#{logdate}
+    </select>
+
+
+    <select id="loginNum4" resultType="java.util.HashMap">
+        SELECT
+        a.login_ip AS "login_ip" ,
+        a.login_date AS "login_date",
+        a.login_num AS "login_num"
+        FROM account_login5 a
+        WHERE a.login_date=#{logdate}
+    </select>
+
+
+    <select id="loginNum5" resultType="java.util.HashMap">
+        SELECT
+        a.username AS "username" ,
+        a.logfail_num AS "logfail_num"
+        FROM account_login6 a
+
+    </select>
+
+
+    <select id="loginNum6" resultType="java.util.HashMap">
+        SELECT
+	    a.login_num AS "login_num",
+	    count(1) AS "user_count"
+        FROM
+	    account_login7 a
+        GROUP BY
+	    a.login_num
+        ORDER BY
+	    a.login_num ASC
+
+    </select>
+
+
+
+
+	<select id="get" resultType="AccountLogin">
+		SELECT
+			<include refid="accountLoginColumns"/>
+		FROM account_login a
+		<include refid="accountLoginJoins"/>
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="findList" resultType="AccountLogin">
+		SELECT
+			<include refid="accountLoginColumns"/>
+		FROM account_login a
+		<include refid="accountLoginJoins"/>
+		<where>
+
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findAllList" resultType="AccountLogin">
+		SELECT
+			<include refid="accountLoginColumns"/>
+		FROM account_login a
+		<include refid="accountLoginJoins"/>
+		<where>
+
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+
+	<insert id="insert">
+		INSERT INTO account_login(
+			id,
+			dept_id,
+			account_number
+		) VALUES (
+			#{id},
+			#{deptId},
+			#{accountNumber}
+		)
+	</insert>
+
+	<update id="update">
+		UPDATE account_login SET 	
+			dept_id = #{deptId},
+			account_number = #{accountNumber}
+		WHERE id = #{id}
+	</update>
+
+	<update id="delete">
+		DELETE FROM account_login
+		WHERE id = #{id}
+	</update>
+
+</mapper>

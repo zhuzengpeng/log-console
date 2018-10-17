@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roowoo.log.modules.count4.dao.Count4lDao">
+    
+	<sql id="count4lColumns">
+		a.weekly AS "weekly",
+		a.loadfail AS "loadfail",
+		a.loadsuccess AS "loadsuccess"
+	</sql>
+	
+	<sql id="count4lJoins">
+	</sql>
+    
+	<select id="get" resultType="Count4l">
+		SELECT 
+			<include refid="count4lColumns"/>
+		FROM count4l a
+		<include refid="count4lJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="Count4l">
+		SELECT 
+			<include refid="count4lColumns"/>
+		FROM count4l a
+		<include refid="count4lJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="Count4l">
+		SELECT 
+			<include refid="count4lColumns"/>
+		FROM count4l a
+		<include refid="count4lJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO count4l(
+			weekly,
+			loadfail,
+			loadsuccess
+		) VALUES (
+			#{weekly},
+			#{loadfail},
+			#{loadsuccess}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE count4l SET 	
+			weekly = #{weekly},
+			loadfail = #{loadfail},
+			loadsuccess = #{loadsuccess}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM count4l
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

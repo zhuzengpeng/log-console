@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roowoo.log.modules.count3.dao.Count3lDao">
+    
+	<sql id="count3lColumns">
+		a.week AS "week",
+		a.failcount AS "failcount",
+		a.successcount AS "successcount"
+	</sql>
+	
+	<sql id="count3lJoins">
+	</sql>
+    
+	<select id="get" resultType="Count3l">
+		SELECT 
+			<include refid="count3lColumns"/>
+		FROM count3l a
+		<include refid="count3lJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="Count3l">
+		SELECT 
+			<include refid="count3lColumns"/>
+		FROM count3l a
+		<include refid="count3lJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="Count3l">
+		SELECT 
+			<include refid="count3lColumns"/>
+		FROM count3l a
+		<include refid="count3lJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO count3l(
+			week,
+			failcount,
+			successcount
+		) VALUES (
+			#{week},
+			#{failcount},
+			#{successcount}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE count3l SET 	
+			week = #{week},
+			failcount = #{failcount},
+			successcount = #{successcount}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM count3l
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

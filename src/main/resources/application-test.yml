@@ -1,0 +1,47 @@
+server:
+  port: 8080
+  servlet:
+    contextPath: /boot
+  tomcat:
+    uri-encoding: UTF-8
+    #    basedir: /data/risinger/tomcat
+    max-threads: 2000
+    min-spare-threads: 10
+logging:
+  level:
+    root: INFO
+    org.apache.shiro.cache.ehcache.EhCacheManager: WARN
+    org.apache.shiro.session.mgt.AbstractValidatingSessionManager: WARN
+
+spring:
+  #数据库的配置
+  datasource:
+    name: test
+    url: jdbc:mysql://192.168.86.128:3306/jeesite_simple?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: Zzp123456$
+    # 使用druid数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    filters: stat
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 'x' FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+  #elasticsearch 配置
+#  data:
+#    elasticsearch:
+#      cluster-name: my-application
+#      cluster-nodes: 192.168.1.216:9300,192.168.1.209:9300,192.168.1.78:9300
+
+#会话过期时间
+session.sessionTimeout: 1800000
+session.sessionTimeoutClean: 120000

@@ -1,0 +1,39 @@
+spring:
+#环境自动激活
+  profiles:
+    active: test
+#springMvc的配置
+  mvc:
+     view:
+       prefix: /WEB-INF/views/
+       suffix: .jsp
+     servlet:
+       load-on-startup: 1
+#cache的配置
+  cache:
+    type: ehcache
+    ehcache:
+      config: classpath:ehcache.xml
+#mybatis的配置
+mybatis:
+  config-location: classpath:/mybatis-config.xml
+  mapper-locations: classpath:/mappings/**/*.xml
+  type-aliases-package: com.roowoo.log
+#分页配置
+page:
+  pageSize: 10
+#文件上传的路径
+userfiles:
+  basedir: /data/jeesite/upload
+
+#shiro会话设置
+session.simpleCookie: roowoo.log.session.id
+
+#admin页面管理Path
+adminPath: /a
+
+#前端基础路径
+frontPath: /f
+
+#前端URL后缀
+urlSuffix: .html

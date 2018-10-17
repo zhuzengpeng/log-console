@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roowoo.log.modules.deptlog.dao.DeptLoginDao">
+    
+	<sql id="deptLoginColumns">
+		a.id AS "id",
+		a.state AS "state",
+		a.dept_id AS "deptId",
+		a.parent_id AS "parent.id",
+		a.product_ip AS "productIp",
+		a.source_ip AS "sourceIp",
+		a.status AS "status",
+		a.account AS "account",
+		a.time AS "time"
+	</sql>
+	
+	<sql id="deptLoginJoins">
+	</sql>
+    
+	<select id="get" resultType="DeptLogin">
+		SELECT 
+			<include refid="deptLoginColumns"/>
+		FROM dept_login a
+		<include refid="deptLoginJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="DeptLogin">
+		SELECT 
+			<include refid="deptLoginColumns"/>
+		FROM dept_login a
+		<include refid="deptLoginJoins"/>
+		<where>
+			
+			<if test="state != null and state != ''">
+				AND a.state LIKE 
+					<if test="dbName == 'oracle'">'%'||#{state}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{state}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{state},'%')</if>
+			</if>
+			<if test="status != null and status != ''">
+				AND a.status = #{status}
+			</if>
+			<if test="account != null and account != ''">
+				AND a.account LIKE 
+					<if test="dbName == 'oracle'">'%'||#{account}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{account}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{account},'%')</if>
+			</if>
+			<if test="beginTime != null and endTime != null ">
+				AND a.time BETWEEN #{beginTime} AND #{endTime}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="DeptLogin">
+		SELECT 
+			<include refid="deptLoginColumns"/>
+		FROM dept_login a
+		<include refid="deptLoginJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+
+	
+	<insert id="insert">
+		INSERT INTO dept_login(
+			id,
+			state,
+			dept_id,
+			parent_id,
+			product_ip,
+			source_ip,
+			status,
+			account,
+			time
+		) VALUES (
+			#{id},
+			#{state},
+			#{deptId},
+			#{parent.id},
+			#{productIp},
+			#{sourceIp},
+			#{status},
+			#{account},
+			#{time}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE dept_login SET 	
+			state = #{state},
+			dept_id = #{deptId},
+			parent_id = #{parent.id},
+			product_ip = #{productIp},
+			source_ip = #{sourceIp},
+			status = #{status},
+			account = #{account},
+			time = #{time}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM dept_login
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

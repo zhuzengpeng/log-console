@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roowoo.log.modules.count2.dao.Count2Dao">
+    
+	<sql id="count2Columns">
+		a.depart_id AS "departId",
+		a.way AS "way",
+		a.successcount AS "successcount",
+		a.parent_id AS "parent.id",
+		a.failcount AS "failcount"
+	</sql>
+	
+	<sql id="count2Joins">
+	</sql>
+    
+	<select id="get" resultType="Count2">
+		SELECT 
+			<include refid="count2Columns"/>
+		FROM count2 a
+		<include refid="count2Joins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="Count2">
+		SELECT 
+			<include refid="count2Columns"/>
+		FROM count2 a
+		<include refid="count2Joins"/>
+		<where>
+			
+			<if test="departId != null and departId != ''">
+				AND a.depart_id = #{departId}
+			</if>
+			<if test="way != null and way != ''">
+				AND a.way = #{way}
+			</if>
+			<if test="successcount != null and successcount != ''">
+				AND a.successcount = #{successcount}
+			</if>
+			<if test="parent != null and parent.id != null and parent.id != ''">
+				AND a.parent_id = #{parent.id}
+			</if>
+			<if test="failcount != null and failcount != ''">
+				AND a.failcount = #{failcount}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="Count2">
+		SELECT 
+			<include refid="count2Columns"/>
+		FROM count2 a
+		<include refid="count2Joins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO count2(
+			depart_id,
+			way,
+			successcount,
+			parent_id,
+			failcount
+		) VALUES (
+			#{departId},
+			#{way},
+			#{successcount},
+			#{parent.id},
+			#{failcount}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE count2 SET 	
+			depart_id = #{departId},
+			way = #{way},
+			successcount = #{successcount},
+			parent_id = #{parent.id},
+			failcount = #{failcount}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM count2
+		WHERE id = #{id}
+	</update>
+	<select id="findListByParentId1" resultType="Count2">
+		select  * from count2 a where a.parent_id=0
+	</select>
+
+	<select id="findListByParentIdSon1" resultType="Count2">
+		select * from count2 a where a.parent_id=#{departid}
+	</select>
+</mapper>
